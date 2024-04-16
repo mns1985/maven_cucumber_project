@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ALL">
+
+    <Properties>
+        <property name="filePattern">${date:yyyy-MM-dd-HH_mm_ss}</property>
+        <Property name="basePath">./logs</Property> <!-- Path to log folder -->
+    </Properties>
+
+    <Appenders>
+        <!-- Sending logs to file -->
+        <RollingFile name="LogsOnFile" fileName="${basePath}/logson_${filePattern}.log" filePattern="${basePath}/logson_${filePattern}.log" append="false">
+            <!--PatternLayout pattern="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/ --> <!-- to have file names in log file -->
+            <PatternLayout pattern="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
+            <OnStartupTriggeringPolicy />
+        </RollingFile>
+
+        <!-- For showing logs in console -->
+        <Console name="LogsOnConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern=" %d{yyyy-MM-dd} %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- Getting logs for the specific java class -->
+        <Logger name="src.test.java.step_definition.Step_definition_mytest.java" level="ALL" additivity="false">
+            <AppenderRef ref="LogsOnFile"/>
+            <AppenderRef ref="LogsOnConsole"/>
+        </Logger>
+
+        <!-- Root level specifying for whole class -->
+        <Root level="ALL">
+            <AppenderRef ref="LogsOnFile"/>
+            <AppenderRef ref="LogsOnConsole"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
+
